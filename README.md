@@ -1,4 +1,4 @@
-# stt_evaluate: Comparing Speech-to-Text Model Evaluation Metrics
+# stt_evaluate: Comparing Speech-to-Text Model Performance
 
 ![Speech-to-Text Model Evaluation Pipeline](stt_evaluate_pipeline.png)
 
@@ -15,6 +15,8 @@ You can interactively compare reference text with transcription text with the bu
 ```
 python highlight_stt.py
 ```
+
+![Interactive App](gradio_app.png)
 
 ## Featured Models
 
