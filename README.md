@@ -1,6 +1,6 @@
 # stt_evaluate: Comparing Speech-to-Text Model Performance
 
-![Speech-to-Text Model Evaluation Pipeline](stt_evaluate_pipeline.png)
+![Speech-to-Text Model Evaluation Pipeline](images/stt_evaluate_pipeline.png)
 
 The **stt_evaluate** pipeline evaluates speech-to-text model performances with the following pipeline:
 
@@ -16,7 +16,37 @@ You can interactively compare reference text with transcription text with the bu
 python highlight_stt.py
 ```
 
-![Interactive App](gradio_app.png)
+![Interactive App](images/gradio_app.png)
+
+## Environment Set-Up
+
+The evaluation tests were run on `conda` with Python 3.9.
+
+```
+conda create -n your_env_name python=3.9
+conda activate your_env_name
+```
+
+The requirements can then be installed as expected.
+```
+cd src
+pip install -r requirements.txt
+```
+
+Note that for audio file processing, you need to download [ffmpeg](https://www.ffmpeg.org/download.html). Otherwise, you'll run into issues loading audio files with `torchaudio`.
+
+![FFMPEG Download](images/ffmpeg_download.png)
+
+After you download from **Get packages & executable files** (whether it be Windows, Linux, or Mac), you have to add `ffmpeg.exe` into your environment PATH. The filepath should look something like this:
+
+```
+C:\Your_User_Here\My_Folder\ffmpeg\bin
+```
+
+You can verify if FFMPEG was correctly installed by running this line in your command prompt without seeing any filepath error messages:
+```
+ffmpeg -version
+```
 
 ## Featured Models
 
