@@ -95,5 +95,5 @@ if __name__ == "__main__":
 
     # Generate the .wav files
     voices = ["alloy", "echo", "fable", "onyx", "nova", "shimmer"]
-    for i in range(13):
+    for i in range(1):
         text_to_speech(voice=voices[i%6], input=msg[i], filename=f"audio_{i}")
