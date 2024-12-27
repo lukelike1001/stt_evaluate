@@ -71,6 +71,8 @@ I plan to add tests for the following models later:
     - Contains `.wav` files sampled at 16kHz. Whisper and Moonshine requires input audio to be set to this frequency.
   - [24kHz](src/24kHz/)
     - Contains `.wav` files generated at 24kHz. OpenAI TTS model
+  - [chunk](src/chunk/)
+    - Stores chunked audio files into 30-second intervals.
   - [flagged](src/flagged/)
     - Contains user-flagged responses from the Gradio app. Think of these as special messages saved by the user (i.e., you) because of some significance (e.g., missing an acronym, odd word substitution, etc.)
   - `evaluate_[MODEL].py`
