@@ -56,7 +56,7 @@ audio_5 = Accent and Colloquial Speech
 if __name__ == "__main__":
     
     # Generate the messages
-    msg = ["" for i in range(12)]
+    msg = ["" for i in range(13)]
     msg[0] = "It's difficult to say whether its impact will last long-term. They're considering their options carefully, but we can't be sure. The sight of the site left everyone in awe, though, and we know it's memorable."
     msg[1] = "Out of 250 participants, only 42 completed the survey within 48 hours. Imagine earning $3,000, but spending $2,750 on essentials. After 90 days, you'll have less than $300 if your daily expenses are $15."
     msg[2] = "Dr. Adams's talk on the Adams apple in relation to Adams Peak in Sri Lanka was fascinating. Meanwhile, Sophia's thesis discussed Plato's Academy near the Acropolis. Both ideas were presented at Stanford's seminar."
@@ -71,7 +71,29 @@ if __name__ == "__main__":
     msg[10] = "'ISR assets confirm target at 35°15'N, 45°30'E,' said the JTAC. 'CAS is cleared hot,' added the AWACS. Pilots, remember: key your radios with the codeword 'Raven.' ECM will jam at 1700 Zulu; adjust ingress timing to meet TOT at 1725."
     msg[11] = "Alright, uh, y'all listen up. We've got a couple jets ready for CAS, so, uhhh, let's not waste time. ISR reports enemy near the FLOT, but, uh, the AO's clear for now. If you see anything, hit your comms and, uh, confirm with the JTAC before engaging, okay?"
 
+    msg[12] = """
+    Sample transcript for F2T2TEA:
+    We have four enemy units to figure out F2T2s for. The expected TTG is going to be comprised of Su-35s, J-11s, and possibly JH-7s. VAQ-135, what do you have for that?
+    We have three EA-18Gs we can use for F2.
+    Great, then we'll put the EA-18Gs on Find and Fix for the Su-35s, and the E-7As in 2 SQN RAAF for the J-11s.
+    The VAQ-141 can find the JH-7s if VAW-125 can then get a fix on them.
+    VAW-125 can fix and track the JH-7s. 
+    Still need someone to track the J-11s.
+    7FS can do that.
+    Okay, what kind of firepower do we need for the TTG? 
+    The F-22As and F-35As both have enough.
+    VFA-147, you'll target and engage the SU-35s with your F-35s. Can you assess?
+    We can assess after we take them out, yes.
+    Okay, 7FS will target and engage the J-11s and JH-7s—can the F-22As assess?
+    No, we'll need someone else to do that.
+    What kind of visual range do the B-1Bs have? Enough to see a wreckage on the water?
+    Yeah, that should be fine.
+    Okay, then 34BS will do assessment for the J-11s and JH-7s. 
+    Who is going to handle the CH-SA-21?
+    VFA-147 can take the CH-SA-21 with the F-35s, and CVW-5 can do the F2T.
+    """
+
     # Generate the .wav files
     voices = ["alloy", "echo", "fable", "onyx", "nova", "shimmer"]
-    for i in range(6, 12):
+    for i in range(13):
         text_to_speech(voice=voices[i%6], input=msg[i], filename=f"audio_{i}")
