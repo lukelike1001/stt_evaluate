@@ -18,8 +18,8 @@ plt.bar(x + bar_width, values_group3, width=bar_width, label='Equal', color='lig
 
 # Add labels and title
 plt.xlabel('Trials')
-plt.ylabel('#Summaries')
-plt.title('gpt-4o-mini prefers Reference Summaries over STT Summaries')
+plt.ylabel('#Transcripts')
+plt.title('gpt-4o-mini prefers Reference Transcripts over STT Transcripts')
 plt.xticks(x, groups)  # Set x-axis ticks to group labels
 plt.legend()  # Add a legend
 
