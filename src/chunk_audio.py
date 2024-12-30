@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from pydub import AudioSegment
 
 def split_audio_to_wav(file_path, output_dir, chunk_length=30):
@@ -23,6 +24,11 @@ def split_audio_to_wav(file_path, output_dir, chunk_length=30):
     return len(chunks)  # Return the number of chunks created
 
 if __name__ == "__main__":
-    input_path = "crete_persia.wav"
-    output_path = "chunk/"
+    
+    # Access the current directory (src/)
+    curr_dir = Path(__file__).resolve().parent
+    
+    # Access the audio file you'd like to chunk
+    input_path = curr_dir / "chunk" / "crete_persia.wav"
+    output_path = curr_dir / "chunk"
     num_chunks = split_audio_to_wav(file_path=input_path, output_dir=output_path)
