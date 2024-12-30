@@ -1,7 +1,19 @@
 import openai
+from openai import AsyncOpenAI, OpenAI
 import os
 
-def evaluate_transcripts_with_llm_judge(transcript_a, transcript_b):
+# Evaluate each pair of transcripts and save results to text files
+def evaluate_transcript_batch(transcripts_a, transcripts_b, output_folder):
+    os.makedirs(output_folder, exist_ok=True)
+    for i, (transcript_a, transcript_b) in enumerate(zip(transcripts_a, transcripts_b)):
+        result = evaluate_with_llm_judge(transcript_a, transcript_b)
+        file_path = os.path.join(output_folder, f"evaluation_result_{i+1}.txt")
+        with open(file_path, "w") as file:
+            file.write(result)
+        print(f"Evaluation {i+1} completed and saved to {file_path}")
+        
+
+def evaluate_with_llm_judge(transcript_a, transcript_b):
     """
     Evaluates two transcripts using gpt-4o-mini, comparing readability, level of detail, and conciseness.
 
@@ -13,9 +25,11 @@ def evaluate_transcripts_with_llm_judge(transcript_a, transcript_b):
         dict: A dictionary with gpt-4o-mini's evaluation.
     """
     # Insert the OpenAI API Key
-    # NOTE: Don't leave this laying around...
-    openai.api_key = ""
-
+    # NOTE: Don't leave this laying around... please use the env variable
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    if not openai.api_key:
+        raise ValueError("The OPENAI_API_KEY environment variable is not set.")
+    
     # Tell gpt-4o-mini to compare the two transcripts and output the better one.
     # To reduce bias, we don't tell which one was written by a human or a STT model.
     # Consequently, we use "Transcript A" and "Transcript B" instead.
@@ -34,38 +48,25 @@ def evaluate_transcripts_with_llm_judge(transcript_a, transcript_b):
 
     # Call gpt-4o-mini model to find the "better" transcript
     # When the code was first written, gpt-4o-mini-2024-07-18 was the latest version of gpt-4o-mini available
-    response = openai.ChatCompletion.create(
+    client = OpenAI()
+    response = client.chat.completions.create(
         model="gpt-4o-mini-2024-07-18",
         messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": prompt},
+            { "role": "developer", "content": "You are a helpful assistant."},
+            { "role": "user", "content": prompt },
         ],
     )
 
     # Extract the response from gpt-4o-mini, then return the evaluation result
-    evaluation = response['choices'][0]['message']['content']
-    return {
-        "evaluation": evaluation
-    }
+    evaluation = response.choices[0].message
+    return f"evaluation: {evaluation}"
+    
 
-# Example arrays of transcripts
-transcripts_a = [
-    "This is an example of a well-written transcript with clear points and structure.",
-    "Here is another example of a structured and detailed transcript."
-]
-transcripts_b = [
-    "this is an example of a stt generated transcript with some errors and less structure",
-    "another stt example with some inconsistencies and lack of details"
-]
-
-# Folder to save results
-output_folder = "evaluations"
-os.makedirs(output_folder, exist_ok=True)
-
-# Evaluate each pair of transcripts and save results to text files
-for i, (transcript_a, transcript_b) in enumerate(zip(transcripts_a, transcripts_b)):
-    result = evaluate_transcripts_with_llm_judge(transcript_a, transcript_b)
-    file_path = os.path.join(output_folder, f"evaluation_result_{i+1}.txt")
-    with open(file_path, "w") as file:
-        file.write(result)
-    print(f"Evaluation {i+1} completed and saved to {file_path}")
+# Easily load lines from a file
+def load_lines_from_file(filepath):
+    lines = []
+    with open(filepath, "r") as file:
+        for line in file:
+            stripped_line = line.strip()
+            lines.append(stripped_line)
+    return lines
