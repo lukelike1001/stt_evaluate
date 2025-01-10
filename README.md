@@ -8,7 +8,7 @@ The **stt_evaluate** pipeline evaluates speech-to-text model performances with t
 2. Convert a reference text to 16kHz `.wav` audio using OpenAI Text-to-Speech (TTS).
 3. Select an Speech-to-Text (STT) model to convert the audio to a text transcription. 
 4. Run an evaluation function between the **reference** text and the **transcription** text.
-5. Calculate the evaluation metric (e.g., WER%, Rouge)
+5. Calculate the evaluation metric (e.g., WER%, LLM Comparison)
 
 You can interactively compare reference text with transcription text with the built-in Gradio app for Step 5, should you choose to prefer that.
 
@@ -20,10 +20,10 @@ python highlight_stt.py
 
 ## Environment Set-Up
 
-The evaluation tests were run on `conda` with Python 3.9.
+The evaluation tests were run on `conda` with Python 3.10.
 
 ```
-conda create -n your_env_name python=3.9
+conda create -n your_env_name python=3.10
 conda activate your_env_name
 ```
 
