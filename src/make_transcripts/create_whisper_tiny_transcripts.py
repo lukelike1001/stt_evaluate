@@ -4,7 +4,7 @@ from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor
 from jiwer import wer
 import einops
 
-def evaluate_whisper_tiny(input_audio="../audio/16kHz/audio_0.wav", input_reference=""):
+def evaluate_whisper_tiny(input_audio, input_reference):
     
     # Step 1: Load the audio file
     audio, sr = torchaudio.load(input_audio)

@@ -4,7 +4,7 @@ from transformers import AutoModelForSpeechSeq2Seq, PreTrainedTokenizerFast
 from jiwer import wer
 import einops
 
-def evaluate_moonshine(input_audio="../audio/16kHz/audio_0.wav", input_reference=""):
+def evaluate_moonshine(input_audio, input_reference):
     
     # Step 1: Load the audio file
     audio, sr = torchaudio.load(input_audio)

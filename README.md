@@ -65,21 +65,21 @@ I plan to add tests for the following models later:
 
 - [archive](archive/)
   - Old code/tests that aren't used anymore. Feel free to explore them
+- [flagged](src/flagged/)
+  - Contains user-flagged responses from the Gradio app. Think of these as special messages saved by the user (i.e., you) because of some significance (e.g., missing acronym, odd word substitution, etc.)
 - [src](src/)
   - Contains active code used for tests
   - [16kHz](src/16kHz/)
     - Contains `.wav` files sampled at 16kHz. Whisper and Moonshine requires input audio to be set to this frequency.
   - [24kHz](src/24kHz/)
-    - Contains `.wav` files generated at 24kHz. OpenAI TTS model
+    - Contains `.wav` files generated at 24kHz. OpenAI TTS model default frequency.
   - [chunk](src/chunk/)
     - Stores chunked audio files into 30-second intervals.
-  - [flagged](src/flagged/)
-    - Contains user-flagged responses from the Gradio app. Think of these as special messages saved by the user (i.e., you) because of some significance (e.g., missing an acronym, odd word substitution, etc.)
-  - `evaluate_[MODEL].py`
-    - Features evaluation metric for running a specific STT model
-  - [highlight_stt.py](src/highlight_stt.py)
-    - Gradio app that interactively compares reference text with the STT transcription. Green = inserted, red = deleted, yellow = substituted words by the STT.
   - [text_to_speech.py](src/text_to_speech.py)
     - Generates `.wav` files at 16kHz from input text. Useful for generating aircraft mission audio. Requires an OpenAPI key.
   - [wer_graph.py](src/wer_graph.py)
     - Plots model performances against one another via matplotlib
+- [highlight_stt.py](highlight_stt.py)
+  - Gradio app that interactively compares reference text with the STT transcription. Green = inserted, red = deleted, yellow = substituted words by the STT.
+- [requirements.txt](requirements.txt)
+  - Required libraries for running on Python 3.10
