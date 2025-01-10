@@ -26,9 +26,9 @@ whisper_tiny_transcripts = load_lines_from_file(whisper_tiny_path)
 moonshine_transcripts = load_lines_from_file(moonshine_path)
 
 # Write output files for all three models that we'll run
-whisper_base_output_folder = curr_dir / "whisper_base"
-whisper_tiny_output_folder = curr_dir / "whisper_tiny"
-moonshine_output_folder = curr_dir / "moonshine"
+whisper_base_output_folder = curr_dir / "base" / "whisper_base"
+whisper_tiny_output_folder = curr_dir / "base" / "whisper_tiny"
+moonshine_output_folder = curr_dir / "base" / "moonshine"
 
 # Run the evaluation tests for the files
 evaluate_transcript_batch(ref_transcripts, whisper_base_transcripts, whisper_base_output_folder)
