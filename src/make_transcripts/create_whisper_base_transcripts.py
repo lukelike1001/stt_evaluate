@@ -2,6 +2,7 @@ import torchaudio
 from torchaudio.functional import resample
 from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor
 from jiwer import wer
+from pathlib import Path
 import einops
 
 def evaluate_whisper_base(input_audio, input_reference):
@@ -40,9 +41,16 @@ def evaluate_whisper_base(input_audio, input_reference):
 
 if __name__ == "__main__":
     
+    # Access the current (src/make_transcripts) and parent (src/) directory via Pathlib
+    curr_dir = Path(__file__).resolve().parent
+    parent_dir = curr_dir.parent
+    
+    # Access the reference transcripts
+    ref_path = parent_dir / "transcripts/reference_transcripts.txt"
+    
     # Extract the reference sentences from the txt file
     reference_transcripts = []
-    with open("../transcripts/reference_transcripts.txt", "r") as file:
+    with open(ref_path, "r") as file:
         for line in file:
             stripped_line = line.strip()
             reference_transcripts.append(stripped_line)
@@ -51,10 +59,13 @@ if __name__ == "__main__":
     num_transcripts = len(reference_transcripts)
     stt_transcripts = ["" for i in range(num_transcripts)]
     
+    # Iterate through all the transcripts
     for k in range(num_transcripts):
-        curr_transcript, curr_wer = evaluate_whisper_base(input_audio=f"../audio/16kHz/audio_{k}.wav", input_reference=reference_transcripts[k])
+        input_path = parent_dir / f"audio/16kHz/audio_{k}.wav"
+        curr_transcript, curr_wer = evaluate_whisper_base(input_audio=input_path, input_reference=reference_transcripts[k])
         stt_transcripts[k] = curr_transcript
     
     # Store the STT-generated transcripts into a TXT file
-    with open("../transcripts/whisper_base_transcripts.txt", "w") as file:
+    output_path = parent_dir / "transcripts/whisper_base_transcripts.txt"
+    with open(output_path, "w") as file:
         file.write("\n".join(stt_transcripts) + "\n")
