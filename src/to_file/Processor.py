@@ -13,6 +13,105 @@ import xlsxwriter
 from pptx import Presentation
 from pptx.util import Pt
 
+system_prompt = (
+        "**GPT Agent Prompt**\n\n"
+        "You are tasked with analyzing a transcript and producing a 2D JSON structure that represents an F2T2TEA table. "
+        "The table should contain seven fields: Enemy, Find, Fix, Track, Target, Engage, and Assess. The JSON output must "
+        "be a list of dictionaries where each dictionary represents a row in the table, with keys corresponding to the column "
+        "names and values corresponding to the data extracted from the transcript.\n\n"
+        "### Column Definitions:\n"
+        "1. **Enemy**: \n"
+        "   - The name or type of enemy unit mentioned in the transcript, such as Enemy1, Enemy2, etc.\n"
+        "   - Each enemy mentioned in the transcript should have a unique dictionary entry.\n\n"
+        "2. **Find**:\n"
+        "   - The unit responsible for the initial detection or identification of the enemy.\n"
+        "   - Look for phrases like \"can find,\" \"for Find,\" or \"what do you have for that?\" and match them to the enemy unit.\n\n"
+        "3. **Fix**:\n"
+        "   - The unit responsible for maintaining surveillance or locking onto the enemy once detected.\n"
+        "   - Look for statements that refer to \"Fix\" or mention a similar responsibility.\n\n"
+        "4. **Track**:\n"
+        "   - The unit responsible for ongoing monitoring of the enemy’s movements.\n"
+        "   - Look for phrases like \"track the enemy\" or \"can track.\"\n\n"
+        "5. **Target**:\n"
+        "   - The unit tasked with planning or preparing to attack the enemy.\n"
+        "   - Look for phrases like \"target Enemy1\" or \"you’ll target.\"\n\n"
+        "6. **Engage**:\n"
+        "   - The unit actively attacking the enemy.\n"
+        "   - Look for phrases like \"engage Enemy1\" or \"will engage.\"\n\n"
+        "7. **Assess**:\n"
+        "   - The unit responsible for evaluating the result of the attack or confirming destruction.\n"
+        "   - Look for mentions of \"assess\" or evaluation after an attack, including visual confirmation by aircraft or other means.\n\n"
+        "### Output Requirements:\n"
+        "- The output must be a valid 2D JSON structure in the form of a list of dictionaries.\n"
+        "- Each dictionary should have keys: Enemy, Find, Fix, Track, Target, Engage, Assess.\n"
+        "- Values should be filled based on the transcript. If no value is explicitly assigned for a particular column, leave it as an empty string (\"\").\n"
+        "- The JSON output must be provided as a list of dictionaries without any additional wording, explanations, or codeblocks.\n\n"
+        "### Example Output Format:\n"
+        "[\n"
+        "    {\"Enemy\": \"Enemy1\", \"Find\": \"UnitA\", \"Fix\": \"UnitB\", \"Track\": \"UnitC\", \"Target\": \"UnitD\", \"Engage\": \"UnitE\", \"Assess\": \"UnitF\"},\n"
+        "    {\"Enemy\": \"Enemy2\", \"Find\": \"UnitG\", \"Fix\": \"UnitH\", \"Track\": \"UnitI\", \"Target\": \"UnitJ\", \"Engage\": \"UnitK\", \"Assess\": \"UnitL\"},\n"
+        "    {\"Enemy\": \"Enemy3\", \"Find\": \"UnitM\", \"Fix\": \"UnitN\", \"Track\": \"UnitO\", \"Target\": \"UnitP\", \"Engage\": \"UnitQ\", \"Assess\": \"UnitR\"},\n"
+        "    {\"Enemy\": \"Enemy4\", \"Find\": \"UnitS\", \"Fix\": \"UnitT\", \"Track\": \"UnitU\", \"Target\": \"UnitV\", \"Engage\": \"UnitW\", \"Assess\": \"UnitX\"}\n"
+        "]\n\n"
+        "MAKE SURE TO ONLY USE CODE NAMES EVEN IF THEY ARE REFERENCED AS SOMETHING ELSE WIHTIN THE TRANSCRIPT. Here is a dictionary that you can use to determine the code names:"
+        + """**Aircraft Units:**
+
+        1. **EA-18G (3 units)**
+        - Unit: VAQ-135
+        - Codename: Hawk
+
+        2. **B-1B (2 units)**
+        - Unit: 34 BS
+        - Codename: Eagle
+
+        3. **F-22A (4 units)**
+        - Unit: 7 FS
+        - Codename: Thunderwave
+
+        4. **F-35 (4 units)**
+        - Unit: VFA-147
+        - Codename: Knight
+
+        5. **EA-18G (2 units)**
+        - Unit: VAQ-141
+        - Codename: Wolverine
+
+        6. **FA-18E/F (8 units)**
+        - Unit: CVW-5
+        - Codename: Lightning
+
+        7. **E-2D (1 unit)**
+        - Unit: VAW-125
+        - Codename: Bluejay
+
+        8. **E-7A (1 unit)**
+        - Unit: 2 SQN RAAF
+        - Codename: Rook
+
+        9. **KC-46 (2 units)**
+        - Unit: TTF
+        - Codename: Dragonfly
+
+        10. **KC-135 (2 units)**
+            - Unit: TTF
+            - Codename: Hornet
+
+        **Enemy Units:**
+
+        1. **Su-35s**
+        - Codename: Salmon
+
+        2. **J-11s**
+        - Codename: Swallow
+
+        3. **JH-7s**
+        - Codename: Sparrow
+
+        4. **CH-SA-21**
+        - Codename: Swordfish
+        """
+    ) 
+
 class TranscriptProcessor:
     def __init__(self):
         pass
@@ -185,18 +284,9 @@ class TranscriptProcessor:
             transcription, wer_score = self.evaluate_whisper_base(audio_file, reference)
             print(f"Transcription: {transcription}, WER: {wer_score:.2%}")
 
-            # Generate JSON structure based on transcription (example logic, replace with LLM call if needed)
-            json_entry = {
-                "Enemy": f"Enemy{idx}",
-                "Find": transcription.split()[0] if transcription else "",
-                "Fix": transcription.split()[1] if len(transcription.split()) > 1 else "",
-                "Track": "",
-                "Target": "",
-                "Engage": "",
-                "Assess": ""
-            }
-            json_data.append(json_entry)
-
+            combined_prompt = f"{system_prompt}\n\n----\nTranscription to be turned into json:{transcription}"
+            
+            json_response = self.generate_completion(combined_prompt)
         # Step 2: Save JSON to Excel
         self.json_to_excel(json_data, excel_file)
         print(f"Excel file saved to {excel_file}")

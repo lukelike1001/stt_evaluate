@@ -173,8 +173,64 @@ if __name__ == "__main__":
         "    {\"Enemy\": \"Enemy3\", \"Find\": \"UnitM\", \"Fix\": \"UnitN\", \"Track\": \"UnitO\", \"Target\": \"UnitP\", \"Engage\": \"UnitQ\", \"Assess\": \"UnitR\"},\n"
         "    {\"Enemy\": \"Enemy4\", \"Find\": \"UnitS\", \"Fix\": \"UnitT\", \"Track\": \"UnitU\", \"Target\": \"UnitV\", \"Engage\": \"UnitW\", \"Assess\": \"UnitX\"}\n"
         "]\n\n"
-        "MAKE SURE TO ONLY USE UNIT NAMES"
-    )
+        "MAKE SURE TO ONLY USE CODE NAMES EVEN IF THEY ARE REFERENCED AS SOMETHING ELSE WIHTIN THE TRANSCRIPT. Here is a dictionary that you can use to determine the code names:"
+        + """**Aircraft Units:**
+
+        1. **EA-18G (3 units)**
+        - Unit: VAQ-135
+        - Codename: Hawk
+
+        2. **B-1B (2 units)**
+        - Unit: 34 BS
+        - Codename: Eagle
+
+        3. **F-22A (4 units)**
+        - Unit: 7 FS
+        - Codename: Thunderwave
+
+        4. **F-35 (4 units)**
+        - Unit: VFA-147
+        - Codename: Knight
+
+        5. **EA-18G (2 units)**
+        - Unit: VAQ-141
+        - Codename: Wolverine
+
+        6. **FA-18E/F (8 units)**
+        - Unit: CVW-5
+        - Codename: Lightning
+
+        7. **E-2D (1 unit)**
+        - Unit: VAW-125
+        - Codename: Bluejay
+
+        8. **E-7A (1 unit)**
+        - Unit: 2 SQN RAAF
+        - Codename: Rook
+
+        9. **KC-46 (2 units)**
+        - Unit: TTF
+        - Codename: Dragonfly
+
+        10. **KC-135 (2 units)**
+            - Unit: TTF
+            - Codename: Hornet
+
+        **Enemy Units:**
+
+        1. **Su-35s**
+        - Codename: Salmon
+
+        2. **J-11s**
+        - Codename: Swallow
+
+        3. **JH-7s**
+        - Codename: Sparrow
+
+        4. **CH-SA-21**
+        - Codename: Swordfish
+        """
+    ) 
 
     user_prompt = input("Enter the transcript for analysis: ")
 
